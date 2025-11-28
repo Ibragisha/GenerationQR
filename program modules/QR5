@@ -1,0 +1,51 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+from qr_generator import QRCode, ErrorCorrectionLevel
+
+def main():
+    print("QR Code Generator Library Demo")
+    print("=" * 40)
+    
+
+    print("\n1. Generating simple QR code...")
+    qr = QRCode(version=1, error_correction=ErrorCorrectionLevel.M)
+    qr.print_ascii("HELLO QR")
+    
+    
+    print("\n2. Generating QR code with high error correction...")
+    qr_high = QRCode(version=2, error_correction=ErrorCorrectionLevel.H)
+    qr_high.print_ascii("ERROR CORRECTION TEST")
+    
+    
+    print("\n3. Saving QR code as image...")
+    try:
+        qr_image = QRCode(version=3, error_correction=ErrorCorrectionLevel.Q)
+        qr_image.save_as_image("https://github.com", "github_qr.png", scale=5)
+        print("Image saved as 'github_qr.png'")
+    except Exception as e:
+        print(f"Image saving failed: {e}")
+    
+
+    print("\n4. Testing different data types...")
+    test_data = [
+        "1234567890",  
+        "Hello World!",  
+        "https://example.com",  
+    ]
+    
+    for i, data in enumerate(test_data, 1):
+        print(f"\nData {i}: {data}")
+        test_qr = QRCode(version=1, error_correction=ErrorCorrectionLevel.L)
+        test_qr.print_ascii(data[:20])  
+
+if __name__ == "__main__":
+    main()
+
+__version__ = "1.0.0"
+__author__ = "QR Library Developer"
+
+from .qr_generator import QRCode, ErrorCorrectionLevel
+
+__all__ = ['QRCode', 'ErrorCorrectionLevel']
